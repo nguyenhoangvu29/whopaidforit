@@ -45,7 +45,7 @@ static Event *_instance = nil;  // <-- important
     NSArray *results = [parser objectWithString:json_string error:nil];
     for (NSDictionary *obj in results)
     {
-        NSString *name = [NSString stringWithFormat:@"%@#%@#%@", [obj objectForKey:@"id"], [obj objectForKey:@"name"], [obj objectForKey:@"description"]];
+        NSString *name = [NSString stringWithFormat:@"%@#%@#%@#%@#%@#%d#%d", [obj objectForKey:@"id"], [obj objectForKey:@"name"], [obj objectForKey:@"description"],[obj objectForKey:@"created"], [obj objectForKey:@"totalamount"],[[obj objectForKey:@"active"] intValue], [[obj objectForKey:@"owner_id"] intValue] ];
         [listData addObject:name]; 
     }
     return listData;
@@ -235,6 +235,18 @@ static Event *_instance = nil;  // <-- important
         sqlite3_close(database);		
     } 
 }
+
+-(void)deleteEventWS:(NSInteger)event_id userId:(NSInteger)user_id
+{
+    NSString *url = [NSString stringWithFormat:@"%@event/remove?id=%d&user_id=%d",SERVER_URL,event_id,user_id];
+    NSLog(@"link delete event %@",url);
+    SBJsonParser *parser = [[SBJsonParser alloc] init];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
+    [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+    //NSString *json_string = [[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding];
+    //NSArray *obj = [parser objectWithString:json_string error:nil];
+}
+
 -(void)deleteEvent:(NSInteger)event_id userId:(NSInteger)user_id
 {
     sqlite3 *database;

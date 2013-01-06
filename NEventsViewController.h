@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "Event.h"
 #import "User.h"
+#import "EntriesViewController.h"
+
 @class PopUpViewController;
 
 @interface NEventsViewController : UITableViewController

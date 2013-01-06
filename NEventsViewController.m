@@ -51,7 +51,6 @@
         showPopUp.txtEmail.text = [column objectAtIndex:2];
         event.idEvent = [[column objectAtIndex:0] intValue];
         [self presentSemiViewController:showPopUp andHeight:192];
-   
 }
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -211,67 +210,74 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Cell";
+    NSString *value = [listData objectAtIndex:[indexPath row]];
+    NSArray *column = [value componentsSeparatedByString:@"#"];
     
     //custom cell
     EventsCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[[EventsCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-    }
+    //if (cell == nil) {
+    NSInteger active = [[column objectAtIndex:5] intValue];
+    cell = [[[EventsCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier Active:active] autorelease];
+    //}
     
     // Configure the cell...
-    cell.labelDate.text = @"15-02-12";
-    cell.labelTitle.text = @"SMD's Events";
-    cell.labelPrice.text = @"€ 1.250,00";
-    //cell.labelPerson.text = @"3 x";
     
-    //[cell.editButton addTarget:self action:@selector(buttonDidTouch:) forControlEvents:UIControlEventTouchUpInside];
+    //cell.textLabel.text = [column objectAtIndex:1];
+    cell.labelDate.text = [column objectAtIndex:3];
+    cell.labelTitle.text = [column objectAtIndex:1];
+    cell.labelPrice.text = @"";
+    //cell.active = [[column objectAtIndex:5] intValue];
+    if([[column objectAtIndex:5] intValue] == 1){
+        cell.labelPrice.text = [column objectAtIndex:4];
+    }
     
     return cell;
     
-    /*static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-        cell.textLabel.textColor = [UIColor grayColor];
-        cell.textLabel.font = [UIFont boldSystemFontOfSize:15];
-        cell.contentView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"tbbline"]];
-        cell.textLabel.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"tbbline"]];
-        [cell.contentView setOpaque:NO];
-        
-        UIButton *editButton = [WidgetControl makeButton:nil andFont:nil andColor:nil andImage:[UIImage imageNamed:@"iconeditblank"] andBackground:nil andHightlightBackground:nil];
-        editButton.tag = [indexPath row];
-        [editButton addTarget:self action:@selector(buttonDidEditTouch:) forControlEvents:UIControlEventTouchUpInside];
-        cell.editingAccessoryView = editButton;
-    }*/
-    // Configure the cell...
-    //NSString *value = [listData objectAtIndex:[indexPath row]];
-    //NSArray *column = [value componentsSeparatedByString:@"#"];
-    //cell.textLabel.text = [column objectAtIndex:1];
-
-    //return cell;
 }
 
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"select item");
+    
     Event *event = [Event instance];
     NSString *value = [listData objectAtIndex:[indexPath row]];
     NSArray *column = [value componentsSeparatedByString:@"#"];
     event._id = [[column objectAtIndex:0] intValue];
     event._name = [column objectAtIndex:1];
-    //ios5 but don't need
-    /*for (id obj in self.revealSideViewController.rootViewController.childViewControllers) {
-        NSString *stringOfObj = NSStringFromClass([[[obj viewControllers] objectAtIndex:0] class]);
-        if ([stringOfObj isEqualToString:@"EntriesViewController"]) {
-            
-            [[[obj viewControllers] objectAtIndex:0] performSelector:@selector(reloadData)];
-        }
-    }
-    [self.revealSideViewController popViewControllerAnimated:YES];
-     */
+    
+    EntriesViewController *entries = [[EntriesViewController alloc] init];
+    entries.title = event._name;
+    [self.navigationController pushViewController:entries animated:YES];
+    [entries release];
+     
 }
+
+// Override to support editing the table view.
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    User *user = [User instance];
+    NSString *value = [listData objectAtIndex:[indexPath row]];
+    NSArray *column = [value componentsSeparatedByString:@"#"];
+    if([[column objectAtIndex:6] intValue] == user._id){
+        //delete event
+        Event *event = [Event instance];
+        [event deleteEventWS:[[column objectAtIndex:0] intValue] userId:user._id];
+        [listData removeObjectAtIndex:[indexPath row]];
+        
+    }else{
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Events"
+                                                        message:@"Don't have permission delete that event"
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        [alert show];
+        [alert release];
+    }
+    
+    [self.tableView reloadData];
+}
+
 - (void) dealloc {
     [super dealloc];
     [[NSNotificationCenter defaultCenter] removeObserver:self];

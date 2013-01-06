@@ -11,9 +11,9 @@
 #import "WidgetControl.h"
 
 @implementation EventsCell
-@synthesize labelDate, labelTitle, labelPrice, status;
+@synthesize labelDate, labelTitle, labelPrice, status, active;
 
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier Active:(NSInteger)active
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
@@ -55,8 +55,10 @@
         //for accesoryview
         GraphicDrawView *optionView = [[GraphicDrawView alloc] init];
         optionView.optionDraw = @"cell";
-        //optionView.optionCellDraw = @"hasOptionAndBlueLine";
-        optionView.optionCellDraw = @"hasOptionAndGrayLine";
+        if(active == 1)
+            optionView.optionCellDraw = @"hasOptionAndBlueLine";
+        else
+            optionView.optionCellDraw = @"hasOptionAndGrayLine";
         
         UILabel *lastUpdate = [[UILabel alloc] initWithFrame:CGRectMake(2, 2, 82, 15)];
         [WidgetControl setLabelStyle:lastUpdate andText:@"Status is actief" andTextAlignment:@"center" andFont:[UIFont systemFontOfSize:11.0f] andTextColor:[UIColor colorWithRed:0/255.0f green:116/255.0f blue:216/255.0f alpha:1.0] andBackgroundColor:[UIColor clearColor] andShadowColor:[UIColor whiteColor] andShadowOffset:CGSizeMake(1,1)];

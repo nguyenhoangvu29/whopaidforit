@@ -38,7 +38,6 @@ static User *_instance = nil;  // <-- important
     User *user = [User instance];
     Event *event = [Event instance];
     NSString *url = [NSString stringWithFormat:@"%@user/login?username=%@&password=%@",SERVER_URL,username, passwd];
-    NSLog(@" url login %@",url);
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
     NSData *response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
     NSString *json_string = [[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding];
@@ -46,18 +45,18 @@ static User *_instance = nil;  // <-- important
     NSString *page = [obj objectForKey:@"page"];
     if([page isEqualToString:@"addentry"]){
         user._id = [[obj objectForKey:@"id"] intValue];
-        event._id = [[obj objectForKey:@"event_id"] intValue];
-        event._name = [obj objectForKey:@"event_name"];
+        //event._id = [[obj objectForKey:@"event_id"] intValue];
+        //event._name = [obj objectForKey:@"event_name"];
     }else if ([page isEqualToString:@"addevent"]) {
         user._id = [[obj objectForKey:@"id"] intValue];
     }else if ([page isEqualToString:@"listentries"]) {
         user._id = [[obj objectForKey:@"id"] intValue];
-        event._id = [[obj objectForKey:@"event_id"] intValue];
-        event._name = [obj objectForKey:@"event_name"];
+        //event._id = [[obj objectForKey:@"event_id"] intValue];
+        //event._name = [obj objectForKey:@"event_name"];
     }else if ([page isEqualToString:@"events"]) {
         user._id = [[obj objectForKey:@"id"] intValue];
-        event._id = [[obj objectForKey:@"event_id"] intValue];
-        event._name = [obj objectForKey:@"event_name"];
+        //event._id = [[obj objectForKey:@"event_id"] intValue];
+        //event._name = [obj objectForKey:@"event_name"];
     }else {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Login" 
                                                         message:@"Your account is wrong, please try again"

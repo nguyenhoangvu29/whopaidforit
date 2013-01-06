@@ -24,4 +24,13 @@
 
 // methods
 + (Event *)instance;
+-(NSMutableArray *)getDatasWS:(NSInteger)user_id;
+-(NSMutableArray *)getDatas:(NSInteger)user_id;
+-(int) addEventWS:(NSInteger)user_id eventName:(NSString *)name eventDescription:(NSString *)description;
+-(int) addEvent:(NSInteger)user_id eventName:(NSString *)name eventDescription:(NSString *)description;
+-(void)updateEventWS:(int)event_id userId:(int)user_id Name:(NSString *)name Description:(NSString *)description;
+-(void)updateEvent:(int)event_id Name:(NSString *)name Description:(NSString *)description;
+-(void)deleteEventWS:(NSInteger)event_id userId:(NSInteger)user_id;
+-(void)deleteEvent:(NSInteger)event_id userId:(NSInteger)user_id;
+
 @end
