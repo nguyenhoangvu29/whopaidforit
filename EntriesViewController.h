@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+
 @class EditEntryDetailViewController;
 @class PopUpViewController;
-@interface EntriesViewController : UITableViewController
+@interface EntriesViewController : UITableViewController <UIAlertViewDelegate>
 {
     EditEntryDetailViewController *showPopUp;
     PopUpViewController * showPopUpEvent;

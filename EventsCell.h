@@ -9,9 +9,13 @@
 #import <UIKit/UIKit.h>
 
 @interface EventsCell : UITableViewCell
+
 @property (nonatomic,retain) IBOutlet UILabel *labelDate;
 @property (nonatomic,retain) IBOutlet UILabel *labelTitle;
 @property (nonatomic,retain) IBOutlet UILabel *labelPrice;
+@property (nonatomic,retain) IBOutlet UIButton *editButton;
+
 @property(nonatomic) int active;
 @property(nonatomic) NSInteger status;
+
 @end

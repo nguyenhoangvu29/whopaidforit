@@ -36,6 +36,14 @@
     // Do any additional setup after loading the view from its nib.
     [self buildForm];
     [self loadData];
+    UILabel *label = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];
+    label.backgroundColor = [UIColor clearColor];
+    label.font = [UIFont boldSystemFontOfSize:20.0];
+    label.textAlignment = UITextAlignmentCenter;
+    label.textColor = [UIColor whiteColor]; // change this color
+    self.navigationItem.titleView = label;
+    label.text = @"Account";
+    [label sizeToFit];
 }
 -(void) buildForm
 {
@@ -49,10 +57,11 @@
     // =============
     // // Save button
     // =============
-    UIButton *saveButton = [WidgetControl makePersonalBarButton];
-    [saveButton setTitle:@"Opslaan" forState:UIControlStateNormal];
+    UIButton *saveButton = [WidgetControl makeButton:nil andFont:nil andColor:nil andImage:[UIImage imageNamed:@"icon-save-green"] andBackground:nil andHightlightBackground:nil];
+    //UIButton *saveButton = [WidgetControl makePersonalBarButton];
+    //[saveButton setTitle:@"Opslaan" forState:UIControlStateNormal];
     [saveButton addTarget:self action:@selector(saveAccount) forControlEvents:UIControlEventTouchUpInside];
-    saveButton.frame = CGRectMake(0, 0, 60, 30);
+    saveButton.frame = CGRectMake(0, 0, 35, 35);
     self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:saveButton] autorelease];
     
     // =============

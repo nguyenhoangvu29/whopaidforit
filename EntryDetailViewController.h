@@ -19,10 +19,16 @@
 @property(nonatomic,retain) NSString *dateTextField;
 @property(nonatomic,retain) NSString *desTextField;
 @property(nonatomic,retain) NSString *priceTextField;
+@property(nonatomic) BOOL accessEdit;
 
+@property(nonatomic, retain) IBOutlet UIButton *buttonEdit;
+@property(nonatomic, retain) IBOutlet UIButton *buttonDelete;
 @property(nonatomic, retain) UILabel *priceLabel;
 @property(nonatomic, retain) UILabel *desLabel;
 @property(nonatomic, retain) UILabel *dateLabel;
 @property(nonatomic, retain) UILabel *personPaid;
 @property(nonatomic, retain) UIScrollView *scrollView;
+
+-(IBAction)deleteEntry:(id)sender;
+
 @end

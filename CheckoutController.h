@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CheckoutController : UITableViewController
+@interface CheckoutController : UITableViewController <UIAlertViewDelegate>
 {
     NSMutableArray *listData;
     NSMutableArray *listItems;

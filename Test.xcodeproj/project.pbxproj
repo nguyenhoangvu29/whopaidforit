@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0F038BDD1699568F00EBFE58 /* swipe.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F038BDC1699568F00EBFE58 /* swipe.png */; };
 		0F768693168CB3AF007AACEB /* icon-account.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F768689168CB3AD007AACEB /* icon-account.png */; };
 		0F768694168CB3AF007AACEB /* icon-booking1.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F76868A168CB3AD007AACEB /* icon-booking1.png */; };
 		0F768695168CB3AF007AACEB /* icon-checkout.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F76868B168CB3AD007AACEB /* icon-checkout.png */; };
@@ -142,6 +143,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0F038BDC1699568F00EBFE58 /* swipe.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = swipe.png; path = images/swipe.png; sourceTree = "<group>"; };
 		0F768689168CB3AD007AACEB /* icon-account.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-account.png"; path = "images/icon-account.png"; sourceTree = "<group>"; };
 		0F76868A168CB3AD007AACEB /* icon-booking1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-booking1.png"; path = "images/icon-booking1.png"; sourceTree = "<group>"; };
 		0F76868B168CB3AD007AACEB /* icon-checkout.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-checkout.png"; path = "images/icon-checkout.png"; sourceTree = "<group>"; };
@@ -524,6 +526,7 @@
 		877F2DC5161F4510007A040A /* images */ = {
 			isa = PBXGroup;
 			children = (
+				0F038BDC1699568F00EBFE58 /* swipe.png */,
 				0F768689168CB3AD007AACEB /* icon-account.png */,
 				0F76868A168CB3AD007AACEB /* icon-booking1.png */,
 				0F76868B168CB3AD007AACEB /* icon-checkout.png */,
@@ -802,6 +805,7 @@
 				0F76869A168CB3AF007AACEB /* icon-members.png in Resources */,
 				0F76869B168CB3AF007AACEB /* icon-save-green.png in Resources */,
 				0F76869C168CB3AF007AACEB /* icon-save.png in Resources */,
+				0F038BDD1699568F00EBFE58 /* swipe.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

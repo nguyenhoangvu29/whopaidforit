@@ -13,7 +13,9 @@
 @implementation MemberCell
 @synthesize editButton, labelPerson, labelPrice, labelEmail, activeFlag;
 
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+@synthesize labelDate, labelTitle, active;
+
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier Active:(NSInteger)active
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
@@ -32,10 +34,10 @@
         [avatarView.layer setCornerRadius:9.0f];
         [avatarView.layer setShadowPath:[[UIBezierPath bezierPathWithRoundedRect:[avatarView bounds] cornerRadius:9.0f] CGPath]];
         
-        [self.contentView addSubview:avatarView];
+        //[self.contentView addSubview:avatarView];
         [avatarView release];
         
-        labelPerson = [[UILabel alloc]initWithFrame:CGRectMake(70, 8, 150, 21)];
+        labelPerson = [[UILabel alloc]initWithFrame:CGRectMake(10, 8, 150, 21)];
         labelPerson.backgroundColor = [UIColor clearColor];
         labelPerson.font = [UIFont boldSystemFontOfSize:15.0f];
         labelPerson.shadowOffset = CGSizeMake(1,1);
@@ -45,7 +47,7 @@
         [self.contentView addSubview:labelPerson];
         [labelPerson release];
         
-        labelEmail = [[UILabel alloc]initWithFrame:CGRectMake(70, 28, 150, 21)];
+        labelEmail = [[UILabel alloc]initWithFrame:CGRectMake(10, 28, 150, 21)];
         labelEmail.backgroundColor = [UIColor clearColor];
         labelEmail.font = [UIFont systemFontOfSize:15];
         labelEmail.shadowOffset = CGSizeMake(1,1);
@@ -54,7 +56,6 @@
         
         [self.contentView addSubview:labelEmail];
         [labelEmail release];
-        
         
         //for background
         GraphicDrawView *cellView = [[GraphicDrawView alloc] init];
@@ -70,7 +71,47 @@
         [cellHView release];
         
         //for accesoryview
-        labelPrice = [[UILabel alloc] init];
+        //UIView *optionView = [[UIView alloc] init];
+        //optionView.frame =CGRectMake(180, 0, 150, 50);
+        GraphicDrawView *optionView = [[GraphicDrawView alloc] init];
+        optionView.optionDraw = @"cell";
+        
+        UILabel *labelStatus = [[UILabel alloc]initWithFrame:CGRectMake(5, 8, 50, 21)];
+        labelStatus.backgroundColor = [UIColor clearColor];
+        labelStatus.font = [UIFont systemFontOfSize:14];
+        labelStatus.shadowOffset = CGSizeMake(1,1);
+        labelStatus.textColor = [UIColor colorWithRed:153/255.0f green:153/255.0f blue:153/255.0f alpha:1.0];
+        labelStatus.shadowColor = [UIColor whiteColor];
+        labelStatus.text = @"Status:";
+        [optionView addSubview:labelStatus];
+        [labelStatus release];
+        
+        UILabel *labelStatusText = [[UILabel alloc]initWithFrame:CGRectMake(5, 28, 140, 21)];
+        labelStatusText.backgroundColor = [UIColor clearColor];
+        labelStatusText.font = [UIFont systemFontOfSize:14];
+        labelStatusText.shadowOffset = CGSizeMake(1,1);
+        labelStatusText.textColor = [UIColor colorWithRed:153/255.0f green:153/255.0f blue:153/255.0f alpha:1.0];
+        if(active){
+            labelStatusText.textColor = [UIColor colorWithRed:0/255.0f green:116/255.0f blue:216/255.0f alpha:1.0];
+        }
+        labelStatusText.shadowColor = [UIColor whiteColor];
+        labelStatusText.text = @"Geaccepteerd";
+        [optionView addSubview:labelStatusText];
+        [labelStatusText release];
+        
+        /*UILabel *lastUpdate = [[UILabel alloc] initWithFrame:CGRectMake(2, 2, 82, 15)];
+        [WidgetControl setLabelStyle:lastUpdate andText:@"Status is actief" andTextAlignment:@"center" andFont:[UIFont systemFontOfSize:11.0f] andTextColor:[UIColor colorWithRed:0/255.0f green:116/255.0f blue:216/255.0f alpha:1.0] andBackgroundColor:[UIColor clearColor] andShadowColor:[UIColor whiteColor] andShadowOffset:CGSizeMake(1,1)];
+        [optionView addSubview:lastUpdate];
+        [lastUpdate release];
+        
+        UILabel *statusText = [[UILabel alloc]initWithFrame:CGRectMake(4, 18, 82, 50)];
+        statusText.lineBreakMode = UILineBreakModeWordWrap;
+        statusText.numberOfLines = 0;
+        [WidgetControl setLabelStyle:statusText andText:@"Swipe om rekeningen toe te voegen aan dit event" andTextAlignment:@"left" andFont:[UIFont systemFontOfSize:10] andTextColor:[UIColor colorWithRed:167/255.0f green:166/255.0f blue:166/255.0f alpha:1.0] andBackgroundColor:nil andShadowColor:[UIColor whiteColor] andShadowOffset:CGSizeMake(1,1)];
+        [optionView addSubview:statusText];
+        [statusText release];
+        */
+        /*labelPrice = [[UILabel alloc] init];
         labelPrice.backgroundColor = [UIColor clearColor];
         labelPrice.font = [UIFont fontWithName:@"Century Gothic" size:15];
         labelPrice.textAlignment = UITextAlignmentRight;
@@ -80,9 +121,10 @@
             labelPrice.textColor = [UIColor colorWithRed:0/255.0f green:116/255.0f blue:216/255.0f alpha:1.0];
         }
         labelPrice.shadowColor = [UIColor whiteColor];
-        
-        self.accessoryView = labelPrice;
-        [labelPrice release];
+        labelPrice.text = @"Status";
+        */
+        self.accessoryView = optionView;
+        //[labelPrice release];
         
         //for editingaccesory
         editButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -92,12 +134,14 @@
         
         self.editingAccessoryView = editButton;
     }
+
     return self;
 }
 - (void)layoutSubviews {
     [super layoutSubviews];
     CGFloat x = self.accessoryView.frame.origin.x;
-    self.accessoryView.frame = CGRectMake(x, 10, 80, 20);
+    //self.accessoryView.frame = CGRectMake(x, 10, 80, 20);
+    self.accessoryView.frame = CGRectMake(x, 0, 101, self.frame.size.height);
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {

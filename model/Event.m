@@ -12,6 +12,7 @@
 #define SERVER_URL @"http://nghexaydung.com/whopaid/public/"
 static Event *_instance = nil;  // <-- important 
 @synthesize _id, _name, _user_id, idEvent; 
+
 +(Event *)instance
 { 
 	// skip everything

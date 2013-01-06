@@ -21,6 +21,7 @@
 @end
 
 @implementation TabBarViewController
+
 - (void)pushOldLeft:(id)sender {
     NEventsViewController *left = [[[NEventsViewController alloc] init] autorelease];
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:left];
@@ -36,6 +37,16 @@
     //[self.revealSideViewController pushOldViewControllerOnDirection:PPRevealSideDirectionLeft withOffset:80 animated:YES];
 }
 
+- (id) init
+{
+    self = [super init];
+    if (self)
+    {
+        self.delegate = self;
+    }
+    return self;
+}
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -46,6 +57,7 @@
     }
     return self;
 }
+
 - (void) viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
     
@@ -113,10 +125,12 @@
     [navMain3 release];
     [navMain4 release];
 }
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 
 @end

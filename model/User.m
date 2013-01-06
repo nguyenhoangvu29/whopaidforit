@@ -38,6 +38,7 @@ static User *_instance = nil;  // <-- important
     User *user = [User instance];
     Event *event = [Event instance];
     NSString *url = [NSString stringWithFormat:@"%@user/login?username=%@&password=%@",SERVER_URL,username, passwd];
+    NSLog(@"login %@",url);
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
     NSData *response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
     NSString *json_string = [[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding];
@@ -231,7 +232,7 @@ static User *_instance = nil;  // <-- important
     for (NSDictionary *obj in results)
     {
         
-        NSString *objRow = [[NSString stringWithFormat:@"%d#%@#%@", [[obj objectForKey:@"user_id"] intValue], [obj objectForKey:@"name"], [obj objectForKey:@"mail_address"]] retain];
+        NSString *objRow = [[NSString stringWithFormat:@"%d#%@#%@#%d", [[obj objectForKey:@"user_id"] intValue], [obj objectForKey:@"name"], [obj objectForKey:@"mail_address"], [[obj objectForKey:@"active"] intValue] ] retain];
         [listData addObject:objRow];
     }
     return listData;

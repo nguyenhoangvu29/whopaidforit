@@ -10,10 +10,12 @@
 #import "User.h"
 #import "Event.h"
 #import "Member.h"
+#import "NEventsViewController.h"
+#import "EventsCell.h"
 
 @class PopUpViewController;
 
-@interface MemberViewController : UITableViewController
+@interface MemberViewController : UITableViewController  <UIAlertViewDelegate>
 {
     PopUpViewController * showPopUp;
     NSMutableArray *listData;

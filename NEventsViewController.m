@@ -26,18 +26,9 @@
     event.idEvent = 0;
     user.page = @"eventadd";
     showPopUp.arrayContent = [NSArray arrayWithObjects:@"Evenement", @"Naam evenement", @"", @"Omschrijving", @"Omschrijving evenement", @"", @"Toevoegen", nil];
+    showPopUp.txtName.text = @"";
+    showPopUp.txtEmail.text = @"";
     [self presentSemiViewController:showPopUp andHeight:192];
-    //[self presentSemiViewController:showPopUp andHeight:390];
-    //showPopUp.dateTextField.text = formattedDate;
-    //[showPopUp viewDidAppear:YES];
-
-    /*[UIView animateWithDuration:0.5 animations:^{
-        [self.revealSideViewController openCompletelyAnimated:YES];
-    }completion:^(BOOL finished) {
-        showPopUp.txtName.text = @"";
-        showPopUp.txtEmail.text = @"";
-        [self presentSemiViewController:showPopUp andHeight:192];
-    }];*/
 }
 -(void) buttonDidEditTouch:(UIButton *)sender
 {
@@ -56,8 +47,6 @@
 {
     self = [super initWithStyle:style];
     if (self) {
-        // Custom initialization
-        //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(semiModalDismissed:) name:kSemiModalDidHideNotification object:nil];
         [WidgetControl setPersonalStyle:self];
         
         // ====================
@@ -66,11 +55,6 @@
         UIButton *addButton = [WidgetControl makeButton:nil andFont:nil andColor:nil andImage:[UIImage imageNamed:@"ico_plus"] andBackground:nil andHightlightBackground:nil];
         addButton.frame = CGRectMake(0, 0, 30, 30);
         [addButton addTarget:self action:@selector(buttonDidTouch:) forControlEvents:UIControlEventTouchUpInside];
-        
-        /*UIButton *addButton = [WidgetControl makePersonalBarButton];
-         [addButton setTitle:@"Toevoegen" forState:UIControlStateNormal];
-         addButton.frame = CGRectMake(0, 0, 60, 30);
-         [addButton addTarget:self action:@selector(didTapAdd) forControlEvents:UIControlEventTouchUpInside];*/
         self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:addButton] autorelease];
     }
     return self;
@@ -88,11 +72,11 @@
     event._name = name;
     [self reloadData];
 }
-- (void)semiModalDismissed:(NSNotification *) notification {
+/*- (void)semiModalDismissed:(NSNotification *) notification {
     [UIView animateWithDuration:0.5 animations:^{
         [self.revealSideViewController replaceAfterOpenedCompletelyAnimated:YES];
     }];
-}
+}*/
 -(void)didTapEdit{
     if (!self.tableView.isEditing) {
         //self.navigationItem.rightBarButtonItem = self.buttonAdd;
@@ -106,13 +90,13 @@
 - (UIBarButtonItem *)leftBarButtonItem
 {
     if (self.tableView.editing) {
-        UIButton *doneButton = [WidgetControl makeButton:nil andFont:nil andColor:nil andImage:[UIImage imageNamed:@"ico_done"] andBackground:[UIImage imageNamed:@"empty"] andHightlightBackground:nil];
+        UIButton *doneButton = [WidgetControl makeButton:nil andFont:nil andColor:nil andImage:[UIImage imageNamed:@"icon-save-green"] andBackground:[UIImage imageNamed:@"empty"] andHightlightBackground:nil];
         [doneButton addTarget:self action:@selector(didTapEdit) forControlEvents:UIControlEventTouchUpInside];
         doneButton.frame = CGRectMake(0, 0, 30, 30);
         UIBarButtonItem *doneBarButton = [[[UIBarButtonItem alloc] initWithCustomView:doneButton] autorelease];
         return doneBarButton;
     } else {
-        UIButton *editButton = [WidgetControl makeButton:nil andFont:nil andColor:nil andImage:[UIImage imageNamed:@"iconeditblank"] andBackground:[UIImage imageNamed:@"empty"] andHightlightBackground:nil];
+        UIButton *editButton = [WidgetControl makeButton:nil andFont:nil andColor:nil andImage:[UIImage imageNamed:@"icon-edit"] andBackground:[UIImage imageNamed:@"empty"] andHightlightBackground:nil];
         [editButton addTarget:self action:@selector(didTapEdit) forControlEvents:UIControlEventTouchUpInside];
         editButton.frame = CGRectMake(0, 0, 30, 30);
         UIBarButtonItem *editBarButton = [[[UIBarButtonItem alloc] initWithCustomView:editButton] autorelease];
@@ -209,6 +193,7 @@
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    User *user = [User instance];
     static NSString *CellIdentifier = @"Cell";
     NSString *value = [listData objectAtIndex:[indexPath row]];
     NSArray *column = [value componentsSeparatedByString:@"#"];
@@ -220,16 +205,24 @@
     cell = [[[EventsCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier Active:active] autorelease];
     //}
     
-    // Configure the cell...
-    
+    // Configure the cell..
     //cell.textLabel.text = [column objectAtIndex:1];
     cell.labelDate.text = [column objectAtIndex:3];
     cell.labelTitle.text = [column objectAtIndex:1];
     cell.labelPrice.text = @"";
     //cell.active = [[column objectAtIndex:5] intValue];
     if([[column objectAtIndex:5] intValue] == 1){
-        cell.labelPrice.text = [column objectAtIndex:4];
+        Helper *helper = [Helper instance];
+        NSString *price = [helper stringToMoney:([[column objectAtIndex:4] doubleValue])];
+        cell.labelPrice.text = [NSString stringWithFormat:@"€ %@",price];
     }
+    if([[column objectAtIndex:6] intValue] == user._id){
+        cell.editButton.tag = [indexPath row];
+        [cell.editButton addTarget:self action:@selector(buttonDidEditTouch:) forControlEvents:UIControlEventTouchUpInside];
+    }else{
+        [cell.editButton setHidden:YES];
+    }
+    
     
     return cell;
     
@@ -246,11 +239,13 @@
     event._id = [[column objectAtIndex:0] intValue];
     event._name = [column objectAtIndex:1];
     
+    self.tabBarController.selectedIndex = 1;
+    /*
     EntriesViewController *entries = [[EntriesViewController alloc] init];
     entries.title = event._name;
     [self.navigationController pushViewController:entries animated:YES];
     [entries release];
-     
+     */
 }
 
 // Override to support editing the table view.

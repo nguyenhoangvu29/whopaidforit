@@ -59,10 +59,10 @@
             [[[[[[parent.childViewControllers objectAtIndex:0] viewControllers] objectAtIndex:0] viewControllers] objectAtIndex:0] performSelector:@selector(receivedDataEventPopup)];
         }else if([user.page isEqualToString:@"eventadd"]){
             //Event List
-            [[[[parent.childViewControllers objectAtIndex:1] viewControllers] objectAtIndex:0] performSelector:@selector(receivedData)];
+            [[[[[[parent.childViewControllers objectAtIndex:0] viewControllers] objectAtIndex:0] viewControllers] objectAtIndex:0] performSelector:@selector(receivedData)];
         }else if([user.page isEqualToString:@"memberadd"]){
             // Memberview
-            [[[[[[parent.childViewControllers objectAtIndex:0] viewControllers] objectAtIndex:1] viewControllers] objectAtIndex:0] performSelector:@selector(receivedData)];
+            [[[[[[parent.childViewControllers objectAtIndex:0] viewControllers] objectAtIndex:3] viewControllers] objectAtIndex:0] performSelector:@selector(receivedData)];
         }else if([user.page isEqualToString:@"entryaddmember"]){
             // save member when add from editentry page
             [user addMemberWS:event._id Name:name Email:email];

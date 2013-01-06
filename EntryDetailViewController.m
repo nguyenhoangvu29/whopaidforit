@@ -15,6 +15,7 @@
 #import "Event.h"
 #import "Entry.h"
 #import "Participate.h"
+#import "EntriesViewController.h"
 
 @interface EntryDetailViewController ()
 
@@ -22,8 +23,9 @@
 
 @implementation EntryDetailViewController
 
-@synthesize arrayPerson, selectPerson, dateTextField, desTextField, priceTextField, paidForId;
-@synthesize priceLabel, desLabel, dateLabel, personPaid, scrollView;
+@synthesize arrayPerson, selectPerson, dateTextField, desTextField, priceTextField, paidForId, accessEdit;
+@synthesize priceLabel, desLabel, dateLabel, personPaid, scrollView, buttonEdit, buttonDelete;
+
 - (void) clickButtonEdit {
     showPopUp.arrayPersons = self.arrayPerson;
     showPopUp.selectPerson = self.selectPerson;
@@ -57,6 +59,18 @@
     [self loadData];
     [self reloadData];
 }
+
+-(IBAction)deleteEntry:(id)sender
+{
+    Entry *entry = [Entry instance];
+    User *user = [User instance];
+    NSLog(@"delete entry: %d", entry._id);
+    [entry deleteEntryWS:entry._id userId:user._id];
+    EntriesViewController *detailViewController = [[EntriesViewController alloc] init];
+    [self.navigationController pushViewController:detailViewController animated:YES];
+    [detailViewController release];
+}
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -109,6 +123,10 @@
     self.priceTextField = money;
     self.selectPerson = [detail objectAtIndex:4];
     self.paidForId = [[detail objectAtIndex:6] intValue];
+    self.accessEdit = YES;
+    if([[detail objectAtIndex:7] intValue] != user._id ){
+        self.accessEdit = NO;
+    }
 }
 -(void) reloadData
 {
@@ -141,10 +159,6 @@
     backButton.frame = CGRectMake(0, 0, 30, 30);
     [backButton addTarget:self action:@selector(goBack) forControlEvents:UIControlEventTouchUpInside];
     
-    /*UIButton *backButton = [WidgetControl makePersonalBackBarButton];
-    backButton.frame = CGRectMake(0, 0, 60, 30);
-    [backButton addTarget:self action:@selector(goBack) forControlEvents:UIControlEventTouchUpInside];
-    [backButton setTitle:self.parentViewController.title forState:UIControlStateNormal];*/
     self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:backButton] autorelease];
     
     // ======================== ||
@@ -157,7 +171,7 @@
     UIImageView *bgRedLabel = (UIImageView *) [self.view viewWithTag:110];
     bgRedLabel.image = [UIImage imageNamed:@"redlabel"];
     
-    UIButton *buttonEdit = (UIButton *) [self.view viewWithTag:200];
+    buttonEdit = (UIButton *) [self.view viewWithTag:200];
     [buttonEdit addTarget:self action:@selector(clickButtonEdit) forControlEvents:UIControlEventTouchUpInside];
     
     personPaid = (UILabel *) [self.view viewWithTag:120];
@@ -184,6 +198,11 @@
     // // Scroll View
     // ======================== ||
     [self updateMemberList];
+    
+    if(self.accessEdit == NO ){
+        [self.buttonEdit setHidden:YES];
+        [self.buttonDelete setHidden:YES];
+    }
     
 }
 -(void) updateMemberList

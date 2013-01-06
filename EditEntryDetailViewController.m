@@ -28,6 +28,7 @@
 
 @implementation EditEntryDetailViewController
 @synthesize arrayPersons, selectPerson, selectPersonId, paidForId, keyboardToolbar, textFields, dragView, dragViews, dragFlag, dateTextField, desTextField, priceTextField, datePicker, scrollView;
+
 - (void)reloadMoney {
     float a = [[[self.priceTextField.text stringByReplacingOccurrencesOfString:@"." withString:@""] stringByReplacingOccurrencesOfString:@"," withString:@"."] floatValue];
     float totalPersons = 0;
@@ -123,9 +124,10 @@
                 [self.arrayPersons insertObject:stringObj atIndex:i];
             };
             if (entry._id > 0 ) { // edit entry
-                [[[[[[parent.childViewControllers objectAtIndex:0] viewControllers] objectAtIndex:0] viewControllers] objectAtIndex:1] performSelector:@selector(receivedDataEdit)];
+                //NSLog([[parent.childViewControllers objectAtIndex:1] viewControllers] );
+                [[[[[[parent.childViewControllers objectAtIndex:0] viewControllers] objectAtIndex:1] viewControllers] objectAtIndex:1]  performSelector:@selector(receivedDataEdit)];
             }else {
-                [[[[[[parent.childViewControllers objectAtIndex:0] viewControllers] objectAtIndex:0] viewControllers] objectAtIndex:0] performSelector:@selector(receivedData)];
+                [[[[[[parent.childViewControllers objectAtIndex:0] viewControllers] objectAtIndex:1] viewControllers] objectAtIndex:0] performSelector:@selector(receivedData)];
             }    
             
             
@@ -163,6 +165,16 @@
         }
     }
 }
+
+-(void) deleteEntry
+{
+    UIViewController * parent = [self.view containingViewController];
+    [[[[[[parent.childViewControllers objectAtIndex:0] viewControllers] objectAtIndex:1] viewControllers] objectAtIndex:1]  performSelector:@selector(deleteEntry)];
+    if ([parent respondsToSelector:@selector(dismissSemiModalView)]) {
+        [parent dismissSemiModalView];
+    }
+}
+
 - (void)hideKeyBoardByButton {
     for (UITextField *t in self.textFields) {
         if ([t isEditing]) {
@@ -331,10 +343,10 @@
     // // Button Delete
     // ===============
     UIButton *buttonDelete = (UIButton *) [self.view viewWithTag:250];
-    [buttonDelete addTarget:self action:@selector(closePopUp) forControlEvents:UIControlEventTouchUpInside];
-    if (!self.selectPerson) {
+    [buttonDelete addTarget:self action:@selector(deleteEntry) forControlEvents:UIControlEventTouchUpInside];
+    //if (!self.selectPerson) {
         [buttonDelete removeFromSuperview];
-    }
+    //}
     
     #pragma -mark define Person, Price, Des, ...
     
@@ -505,6 +517,12 @@
                     [itemView addSubview:smallAvatarView];
                     [smallAvatarView release];
                     
+                    UIImageView *swipeAvatarView = [[UIImageView alloc] initWithFrame:CGRectMake(e-60-p, p+60, 50, 16)];
+                    swipeAvatarView.image = [UIImage imageNamed:@"swipe"];
+                    [swipeAvatarView setAlpha:0.5];
+                    [itemView addSubview:swipeAvatarView];
+                    [swipeAvatarView release];
+                    
                     [singleFingerTap release];
                 }
                 [scrollView addSubview:itemView];
@@ -520,7 +538,7 @@
 #pragma mark - CPPickerViewDataSource
 - (NSInteger)numberOfItemsInPickerView:(CPPickerView *)pickerView
 {
-    return 20;
+    return 11;
 }
 - (NSString *)pickerView:(CPPickerView *)pickerView titleForItem:(NSInteger)item
 {

@@ -20,7 +20,7 @@
 @property(nonatomic) int _id;
 @property(nonatomic) int idEvent;
 @property(nonatomic) int _user_id;
-@property(nonatomic) NSString *_name;
+@property(nonatomic, retain) NSString *_name;
 
 // methods
 + (Event *)instance;

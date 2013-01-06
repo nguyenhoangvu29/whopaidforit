@@ -53,6 +53,7 @@ static Entry *_instance = nil;  // <-- important
     }
     return listData;
 }
+
 -(NSMutableArray *)getDatas:(int)event_id
 {
     NSMutableArray *listData = [[NSMutableArray alloc] init ];
@@ -93,6 +94,7 @@ static Entry *_instance = nil;  // <-- important
     }
     return listData;
 }
+
 -(NSString *) getDetailWS:(int)entry_id
 {
     SBJsonParser *parser = [[SBJsonParser alloc] init];
@@ -103,11 +105,12 @@ static Entry *_instance = nil;  // <-- important
     NSString *json_string = [[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding];
     NSArray *results = [parser objectWithString:json_string error:nil];
     NSArray *obj = [parser objectWithString:json_string error:nil];
-    NSString *name = [NSString stringWithFormat:@"%d#%@#%@#%@#%@#%d#%d", [[obj objectForKey:@"id"] intValue], [obj objectForKey:@"date_expenses"], [obj objectForKey:@"amount"],[obj objectForKey:@"description"],[obj objectForKey:@"user_name"],[[obj objectForKey:@"total"] intValue],[[obj objectForKey:@"user_id"] intValue]];
+    NSString *name = [NSString stringWithFormat:@"%d#%@#%@#%@#%@#%d#%d#%d", [[obj objectForKey:@"id"] intValue], [obj objectForKey:@"date_expenses"], [obj objectForKey:@"amount"],[obj objectForKey:@"description"],[obj objectForKey:@"user_name"],[[obj objectForKey:@"total"] intValue],[[obj objectForKey:@"user_id"] intValue], [[obj objectForKey:@"owner_id"] intValue] ];
     
     //[NSString stringWithFormat:@"%@#%@#%@", [obj objectForKey:@"id"], [obj objectForKey:@"name"], [obj 
     return name;
 }
+
 -(NSString *) getDetail:(int)entry_id
 {
     NSString *objRow = @"";
@@ -221,6 +224,7 @@ static Entry *_instance = nil;  // <-- important
     NSLog(@"save entry: %@", url);
     NSString *contents = [NSString stringWithContentsOfURL:[NSURL URLWithString:url]];
 }
+
 -(void)updateEntry:(NSInteger)entry_id Amount:(NSNumber*)amount Description:(NSString*)description DateExpenses:(NSString *)date_expense paidFor:(NSInteger)paidFor
 {
     sqlite3 *database;
@@ -274,6 +278,16 @@ static Entry *_instance = nil;  // <-- important
         sqlite3_close(database);		
     }
 }
+
+-(void) deleteEntryWS:(NSInteger)entry_id userId:(NSInteger)user_id
+{
+    NSString *url = [NSString stringWithFormat:@"%@expenses/remove?id=%d&user_id=%d",SERVER_URL,entry_id,user_id];
+    NSLog(@"link delete entry %@",url);
+    SBJsonParser *parser = [[SBJsonParser alloc] init];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
+    [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+}
+
 -(void)deleteEntry:(NSInteger)entry_id userId:(NSInteger)user_id
 {
     sqlite3 *database;

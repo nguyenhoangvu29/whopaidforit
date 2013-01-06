@@ -19,6 +19,7 @@
 #import "PopUpViewController.h"
 #import "UIViewController+KNSemiModal.h"
 #import "Helper.h"
+#import "NEventsViewController.h"
 
 @interface EntriesViewController ()
 
@@ -106,51 +107,70 @@
         UIButton *addButton = [WidgetControl makeButton:nil andFont:nil andColor:nil andImage:[UIImage imageNamed:@"ico_plus"] andBackground:nil andHightlightBackground:nil];
         addButton.frame = CGRectMake(0, 0, 30, 30);
         [addButton addTarget:self action:@selector(didTapAdd) forControlEvents:UIControlEventTouchUpInside];
-        
-        /*UIButton *addButton = [WidgetControl makePersonalBarButton];
-        [addButton setTitle:@"Toevoegen" forState:UIControlStateNormal];
-        addButton.frame = CGRectMake(0, 0, 60, 30);
-        [addButton addTarget:self action:@selector(didTapAdd) forControlEvents:UIControlEventTouchUpInside];*/
         self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:addButton] autorelease];
+        
+        UIButton *itemButton = [WidgetControl makePersonalBarButton];
+        [itemButton setTitle:@"Items" forState:UIControlStateNormal];
+        itemButton.frame = CGRectMake(0, 0, 50, 30);
+        [itemButton addTarget:self action:@selector(goBack) forControlEvents:UIControlEventTouchUpInside];
+        self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:itemButton] autorelease];
         
     }
     return self;
 }
+
 - (void)viewDidAppear:(BOOL)animated
 {
-    User *user = [User instance];
-    Event *event = [Event instance];
-    if([user.page isEqualToString:@"addevent"]){
-        [self presentSemiViewController:showPopUpEvent andHeight:192];
-    }   
     [self reloadData];
-    self.title = event._name;
 }
+
 -(void)loadData
 {
     Event *event = [Event instance];
-    Entry *entry = [Entry instance];
-    listData = [[NSMutableArray alloc ] init ];
-    listData = [entry getDatasWS:event._id];
+    if(event._id){
+        Entry *entry = [Entry instance];
+        listData = [[NSMutableArray alloc ] init ];
+        listData = [entry getDatasWS:event._id];
+        UILabel *label = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];
+        label.backgroundColor = [UIColor clearColor];
+        label.font = [UIFont boldSystemFontOfSize:20.0];
+        label.textAlignment = UITextAlignmentCenter;
+        label.textColor = [UIColor whiteColor]; // change this color
+        self.navigationItem.titleView = label;
+        label.text = event._name;
+        [label sizeToFit];
+        
+    }else{
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Boekingen"
+                                                        message:@"Please choose item before making booking"
+                                                       delegate:self
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        [alert show];
+        
+    }
 }
+
+-(void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:    (NSInteger)buttonIndex
+{
+    //NEventsViewController *event = [[NEventsViewController alloc] init];
+    //[self.navigationController pushViewController:event animated:YES];
+    //[event release];
+    self.tabBarController.selectedIndex = 0;
+}
+
 -(void) reloadData
 {
-    Event *event = [Event instance];
-    self.title = event._name;
     [self loadData];
     [self.tableView reloadData];
 }
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    showPopUpEvent = [[PopUpViewController alloc] initWithNibName:@"PopUpViewController" bundle:nil];
-    User *user = [User instance];
-    if([user.page isEqualToString:@"addevent"]){
-        showPopUpEvent.arrayContent = [NSArray arrayWithObjects:@"Evenement", @"Naam evenement", @"", @"Omschrijving", @"Omschrijving evenement", @"", @"Toevoegen", nil];
-        //[showPopUp.submitButton setTitle:@"Save Event" forState:UIControlStateNormal];
-        //user.page = @"addentry";
-    } 
-    //[self loadData];
+}
+
+-(void) goBack {
+    self.tabBarController.selectedIndex = 0;
 }
 
 - (void)didReceiveMemoryWarning
@@ -186,11 +206,9 @@
     
     // Configure the cell...
     NSString *value = [listData objectAtIndex:[indexPath row]];
-    NSLog(@" string entry %@", value);
     NSArray *column = [value componentsSeparatedByString:@"#"];
     
     NSString *date = [column objectAtIndex:1];
-    NSLog( @"date %@",date);
     cell.labelDate.text = date;
     cell.labelTitle.text = [column objectAtIndex:3];
     cell.labelPrice.text = [NSString stringWithFormat:@"€ %@",[column objectAtIndex:2]];

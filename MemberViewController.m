@@ -45,28 +45,24 @@
 }
 -(void)didTapEdit{
     if (!self.tableView.isEditing) {
-        self.navigationItem.leftBarButtonItem = self.buttonAdd;
         [super setEditing:YES animated:YES];
     } else {
-        self.navigationItem.rightBarButtonItem = nil;
         [super setEditing:NO animated:YES];
     }
-    self.navigationItem.rightBarButtonItem = self.rightBarButtonItem;
+    self.navigationItem.leftBarButtonItem = self.leftBarButtonItem;
 }
-- (UIBarButtonItem *)rightBarButtonItem
+- (UIBarButtonItem *)leftBarButtonItem
 {
     if (self.tableView.editing) {
-        UIButton *doneButton = [WidgetControl makePersonalBarButton];
-        [doneButton setTitle:@"Opslaan" forState:UIControlStateNormal];
+        UIButton *doneButton = [WidgetControl makeButton:nil andFont:nil andColor:nil andImage:[UIImage imageNamed:@"icon-save-green"] andBackground:[UIImage imageNamed:@"empty"] andHightlightBackground:nil];
         [doneButton addTarget:self action:@selector(didTapEdit) forControlEvents:UIControlEventTouchUpInside];
-        doneButton.frame = CGRectMake(0, 0, 60, 30);
+        doneButton.frame = CGRectMake(0, 0, 30, 30);
         UIBarButtonItem *doneBarButton = [[[UIBarButtonItem alloc] initWithCustomView:doneButton] autorelease];
         return doneBarButton;
     } else {
-        UIButton *editButton = [WidgetControl makePersonalBarButton];
-        [editButton setTitle:@"Bewerken" forState:UIControlStateNormal];
+        UIButton *editButton = [WidgetControl makeButton:nil andFont:nil andColor:nil andImage:[UIImage imageNamed:@"icon-edit"] andBackground:[UIImage imageNamed:@"empty"] andHightlightBackground:nil];
         [editButton addTarget:self action:@selector(didTapEdit) forControlEvents:UIControlEventTouchUpInside];
-        editButton.frame = CGRectMake(0, 0, 60, 30);
+        editButton.frame = CGRectMake(0, 0, 30, 30);
         UIBarButtonItem *editBarButton = [[[UIBarButtonItem alloc] initWithCustomView:editButton] autorelease];
         return editBarButton;
     }
@@ -87,27 +83,52 @@
 {
     [super viewDidLoad];
     
-    self.navigationItem.rightBarButtonItem = self.rightBarButtonItem;
+    self.navigationItem.leftBarButtonItem = self.leftBarButtonItem;
     
-    //add button Add
+    UIButton *addButton = [WidgetControl makeButton:nil andFont:nil andColor:nil andImage:[UIImage imageNamed:@"ico_plus"] andBackground:nil andHightlightBackground:nil];
+    addButton.frame = CGRectMake(0, 0, 30, 30);
+    [addButton addTarget:self action:@selector(buttonDidTouch:) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:addButton] autorelease];
+    /*//add button Add
     UIButton *buttonAddView = [WidgetControl makePersonalBarButton];
     [buttonAddView setTitle:@"Toevoegen" forState:UIControlStateNormal];
     [buttonAddView addTarget:self action:@selector(buttonDidTouch:) forControlEvents:UIControlEventTouchUpInside];
     buttonAddView.frame = CGRectMake(0, 0, 60, 30);
     self.buttonAdd = [[[UIBarButtonItem alloc] initWithCustomView:buttonAddView] autorelease];
-    [self loadData];
+     */
+    //[self loadData];
 }
+
 -(void)loadData
 {
     User *user = [User instance];
     Event *event = [Event instance];
-    listData = [[NSMutableArray alloc ] init ];
-    listData = [user getMemberByEventWS:event._id];
+    if(event._id){
+        listData = [[NSMutableArray alloc ] init ];
+        listData = [user getMemberByEventWS:event._id];
+        UILabel *label = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];
+        label.backgroundColor = [UIColor clearColor];
+        label.font = [UIFont boldSystemFontOfSize:20.0];
+        label.textAlignment = UITextAlignmentCenter;
+        label.textColor = [UIColor whiteColor]; // change this color
+        self.navigationItem.titleView = label;
+        label.text = event._name;
+        [label sizeToFit];
+    }else{
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Leden"
+                                                        message:@"Please choose item before see members"
+                                                       delegate:self
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        [alert show];
+    }
 }
+
 - (void)viewDidAppear:(BOOL)animated
 {
     [self reloadData];
 }
+
 -(void) reloadData
 {
     [self loadData];
@@ -157,17 +178,17 @@
 {
     static NSString *CellIdentifier = @"Cell";
     MemberCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[[MemberCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-    }
+    NSString *value = [listData objectAtIndex:[indexPath row]];
+    NSArray *column = [value componentsSeparatedByString:@"#"];
+    int active = [[column objectAtIndex:3] intValue];
+    cell = [[[MemberCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier Active:active] autorelease];
     
     // Configure the cell...
     //cell.labelPrice.text = @"€ 50,00";
     //cell.labelPerson.text = @"Marcel";
     //cell.labelEmail.text = @"marcel@gmail.com";
-    NSString *value = [listData objectAtIndex:[indexPath row]];
-    NSArray *column = [value componentsSeparatedByString:@"#"];
-    cell.labelPrice.text = @"";
+    
+    //cell.labelPrice.text = @"123";
     cell.labelPerson.text = [column objectAtIndex:1];
     cell.labelEmail.text = [column objectAtIndex:2];
     cell.editButton.tag = [indexPath row];
@@ -175,5 +196,8 @@
     
     return cell;
 }
-
+-(void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    self.tabBarController.selectedIndex = 0;
+}
 @end

@@ -13,9 +13,7 @@
 #import "Checkout.h"
 #import "Event.h"
 #import "User.h"
-@interface CheckoutController ()
-
-@end
+#import "NEventsViewController.h"
 
 @implementation CheckoutController
 
@@ -48,8 +46,16 @@
     // ======================== ||
     // // Back Bar Button
     // ======================== ||
+    // ======================== ||
+    // // Back Bar Button
+    // ======================== ||
+    UIButton *backButton = [WidgetControl makeButton:nil andFont:nil andColor:nil andImage:[UIImage imageNamed:@"icon-list"] andBackground:nil andHightlightBackground:nil];
+    backButton.frame = CGRectMake(0, 0, 30, 30);
+    [backButton addTarget:self action:@selector(goBack) forControlEvents:UIControlEventTouchUpInside];
     
-    UIButton *backButton = [WidgetControl makePersonalBackBarButton];
+    self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:backButton] autorelease];
+    
+    /*UIButton *backButton = [WidgetControl makePersonalBackBarButton];
     backButton.frame = CGRectMake(0, 0, 80, 30);
     [backButton addTarget:self action:@selector(addCheckout) forControlEvents:UIControlEventTouchUpInside];
     [backButton setTitle:@"Checkout" forState:UIControlStateNormal];
@@ -60,22 +66,39 @@
     [historyButton addTarget:self action:@selector(goHistory) forControlEvents:UIControlEventTouchUpInside];
     [historyButton setTitle:@"Geschiedenis" forState:UIControlStateNormal];
     self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:historyButton] autorelease];
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    [self loadData];
+    */
 }
+
 - (void)viewDidAppear:(BOOL)animated
 {
     [self reloadData];
 }
+
 -(void) reloadData
 {
-    [self loadData];
-    [self.tableView reloadData];
+    Event *event = [Event instance];
+    if(event._id){
+        [self loadData];
+        [self.tableView reloadData];
+        UILabel *label = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];
+        label.backgroundColor = [UIColor clearColor];
+        label.font = [UIFont boldSystemFontOfSize:20.0];
+        label.textAlignment = UITextAlignmentCenter;
+        label.textColor = [UIColor whiteColor]; // change this color
+        self.navigationItem.titleView = label;
+        label.text = event._name;
+        [label sizeToFit];
+    }else{
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Afrekenen"
+                                                        message:@"Please choose item before see checkout"
+                                                       delegate:self
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        [alert show];
+    }
+    
 }
+
 -(void) loadData
 {
     listData = [[NSMutableArray alloc] init ];
@@ -180,8 +203,8 @@
             }
         }
     }
-    
 }
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -201,11 +224,13 @@
     // Return the number of rows in the section.
     return [listData count];
 }
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     //i is total items counted per cell
     int i = [[listItems objectAtIndex:[indexPath row]] count];
     return 52+(35*i);
 }
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Cell";
@@ -220,5 +245,13 @@
         
     //}
     return cell;
+}
+
+-(void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+   self.tabBarController.selectedIndex = 0;
+}
+-(void) goBack {
+    self.tabBarController.selectedIndex = 1;
 }
 @end

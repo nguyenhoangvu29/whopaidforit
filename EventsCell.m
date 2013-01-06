@@ -11,7 +11,7 @@
 #import "WidgetControl.h"
 
 @implementation EventsCell
-@synthesize labelDate, labelTitle, labelPrice, status, active;
+@synthesize labelDate, labelTitle, labelPrice, status, active, editButton;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier Active:(NSInteger)active
 {
@@ -97,7 +97,7 @@
         [optionView release];
         
 
-         /*//for editingaccesory
+         //for editingaccesory
          editButton = [UIButton buttonWithType:UIButtonTypeCustom];
          //[editButton setTitle:@"Edit" forState:UIControlStateNormal];
          [editButton setImage:[UIImage imageNamed:@"iconedit"] forState:UIControlStateNormal];
@@ -105,7 +105,7 @@
          editButton.frame = CGRectMake(0, 0, 27, 27);
          
          self.editingAccessoryView = editButton;
-        */
+        
         
     }
     return self;
