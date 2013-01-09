@@ -67,11 +67,14 @@
     [historyButton setTitle:@"Geschiedenis" forState:UIControlStateNormal];
     self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:historyButton] autorelease];
     */
+    [self loadData];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [self reloadData];
+    [self.tableView reloadData];
+
 }
 
 -(void) reloadData
@@ -79,7 +82,6 @@
     Event *event = [Event instance];
     if(event._id){
         [self loadData];
-        [self.tableView reloadData];
         UILabel *label = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];
         label.backgroundColor = [UIColor clearColor];
         label.font = [UIFont boldSystemFontOfSize:20.0];
@@ -90,7 +92,7 @@
         [label sizeToFit];
     }else{
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Afrekenen"
-                                                        message:@"Please choose item before see checkout"
+                                                        message:@"Selecteer eerst een event dat u wilt afrekenen."
                                                        delegate:self
                                               cancelButtonTitle:@"OK"
                                               otherButtonTitles:nil];
@@ -222,7 +224,11 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return [listData count];
+    if([listData count]){
+        return [listData count];
+    }else
+        return 0;
+    
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{

@@ -98,7 +98,7 @@
     User *user = [User instance];
     if (![self.textFieldPassword.text isEqualToString:self.textFieldCPassword.text]) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Account" 
-                                                        message:@"Gelieve voer het wachtwoord in en bevestig het paswoord"
+                                                        message:@"Gelieve voer het wachtwoord in en bevestig het paswoord."
                                                        delegate:nil
                                               cancelButtonTitle:@"OK" 
                                               otherButtonTitles:nil];
@@ -107,7 +107,7 @@
     }else{
         [user updateAccount:user._id Name:self.textFieldName.text Email:self.textFieldEmail.text Password:self.textFieldPassword.text];
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Account" 
-                                                        message:@"Information update successful"
+                                                        message:@"Account informative update succesvol."
                                                        delegate:nil
                                               cancelButtonTitle:@"OK" 
                                               otherButtonTitles:nil];

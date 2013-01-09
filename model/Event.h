@@ -32,5 +32,5 @@
 -(void)updateEvent:(int)event_id Name:(NSString *)name Description:(NSString *)description;
 -(void)deleteEventWS:(NSInteger)event_id userId:(NSInteger)user_id;
 -(void)deleteEvent:(NSInteger)event_id userId:(NSInteger)user_id;
-
+-(void)activeEvent:(NSInteger)user_id eventId:(NSInteger)event_id;
 @end

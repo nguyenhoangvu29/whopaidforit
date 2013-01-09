@@ -14,6 +14,7 @@ static Member *_instance = nil;  // <-- important
 @synthesize email;
 @synthesize price;
 @synthesize _id;
+
 -(void)dealloc
 {
     self._id = nil;
@@ -22,6 +23,7 @@ static Member *_instance = nil;  // <-- important
     self.price = nil;
     [super dealloc];
 }
+
 +(Member *)instance
 { 
 	// skip everything

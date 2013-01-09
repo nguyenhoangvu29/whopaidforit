@@ -7,9 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MessageUI/MessageUI.h>
+#import <MessageUI/MFMailComposeViewController.h>
 #import <QuartzCore/QuartzCore.h>
+
 @class PopUpViewController;
-@interface EditEntryDetailViewController : UIViewController
+@interface EditEntryDetailViewController : UIViewController <UIActionSheetDelegate, UIAlertViewDelegate, MFMailComposeViewControllerDelegate>
 {
     PopUpViewController *showPopUp;
 }
@@ -21,4 +24,6 @@
 @property (nonatomic, retain) UITextField *priceTextField;
 @property (nonatomic, retain) NSMutableArray *arrayPersons;
 @property(nonatomic, retain) UIScrollView *scrollView;
+@property(nonatomic, retain) MFMailComposeViewController *mailer;
+
 @end

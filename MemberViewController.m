@@ -17,7 +17,7 @@
 @end
 
 @implementation MemberViewController
-@synthesize buttonAdd;
+@synthesize buttonAdd, mailer;
 
 - (void)buttonDidTouch:(id)sender {
     User *user = [User instance];
@@ -97,6 +97,7 @@
     self.buttonAdd = [[[UIBarButtonItem alloc] initWithCustomView:buttonAddView] autorelease];
      */
     //[self loadData];
+    
 }
 
 -(void)loadData
@@ -116,12 +117,13 @@
         [label sizeToFit];
     }else{
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Leden"
-                                                        message:@"Please choose item before see members"
+                                                        message:@"Maak eerst een nieuw event of selecteer een bestaand event voor deze leden."
                                                        delegate:self
                                               cancelButtonTitle:@"OK"
                                               otherButtonTitles:nil];
         [alert show];
     }
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -134,6 +136,7 @@
     [self loadData];
     [self.tableView reloadData];
 }
+
 -(void) receivedData
 {
     User *user =[User instance];
@@ -146,7 +149,9 @@
     else    
         [user addMemberWS:event._id Name:name Email:email];
     [self reloadData];
+    [self sendEmail:name Email:email];
 }
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -176,6 +181,7 @@
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    User *user = [User instance];
     static NSString *CellIdentifier = @"Cell";
     MemberCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     NSString *value = [listData objectAtIndex:[indexPath row]];
@@ -191,13 +197,86 @@
     //cell.labelPrice.text = @"123";
     cell.labelPerson.text = [column objectAtIndex:1];
     cell.labelEmail.text = [column objectAtIndex:2];
-    cell.editButton.tag = [indexPath row];
-    [cell.editButton addTarget:self action:@selector(buttonDidEditTouch:) forControlEvents:UIControlEventTouchUpInside];
-    
+    if(user._id == [[column objectAtIndex:4] intValue] || user._id == [[column objectAtIndex:0] intValue]){
+        cell.editButton.tag = [indexPath row];
+        [cell.editButton addTarget:self action:@selector(buttonDidEditTouch:) forControlEvents:UIControlEventTouchUpInside];
+    }else{
+        [cell.editButton setHidden:YES];
+        [cell.editButton removeFromSuperview];
+    }
     return cell;
 }
+
 -(void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex
 {
     self.tabBarController.selectedIndex = 0;
+}
+
+// Override to support editing the table view.
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    User *user = [User instance];
+    Event *event = [Event instance];
+    NSString *value = [listData objectAtIndex:[indexPath row]];
+    NSArray *column = [value componentsSeparatedByString:@"#"];
+    if(user._id == [[column objectAtIndex:4] intValue] || user._id == [[column objectAtIndex:0] intValue]){
+        //delete member
+        Event *event = [Event instance];
+        [user deleteMemberWS:[[column objectAtIndex:0] intValue] eventId:event._id userId:user._id];
+        [listData removeObjectAtIndex:[indexPath row]];
+        
+    }else{
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Leden"
+                                                        message:@"DU bent niet de eigenaar van dit event. Alleen de eigenaar van dit event kan leden verwijderen."
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        [alert show];
+        [alert release];
+    }
+    
+    [self.tableView reloadData];
+}
+
+-(void) sendEmail:(NSString *)name Email:(NSString *) email
+{
+    if ([MFMailComposeViewController canSendMail])
+    {
+        User *user =[User instance];
+        Event *event = [Event instance];
+        mailer = [[MFMailComposeViewController alloc] init];
+        mailer.mailComposeDelegate = self;
+        [mailer setSubject:@"Uitnodiging om WhoPaidForIt te gebruiken"];
+        NSArray *toRecipients = [NSArray arrayWithObjects:email, nil];
+        [mailer setToRecipients:toRecipients];
+        //UIImage *myImage = [UIImage imageNamed:@"mobiletuts-logo.png"];
+        //NSData *imageData = UIImagePNGRepresentation(myImage);
+        //[mailer addAttachmentData:imageData mimeType:@"image/png" fileName:@"mobiletutsImage"];
+        NSString *emailBody = [NSString stringWithFormat:@"<p>Beste %@,</p><p>%@ nodigt u uit om de WhoPaidForIt app te downloaden en te participeren in het Event %@.</p><p>Met de WhoPaidForIt app administreert u snel en eenvoudig gezamenlijke uitgaven. De app verrekent vervolgens de gezamenlijke kosten naar kosten per deelnemer aan een event.</p><br/><p>[Logo Apple AppStore link to whopaidforit app]<br/>[Logo Google Play Store link to whopaidforit app]</p>",name,user._name, event._name ];
+        [mailer setMessageBody:emailBody isHTML:YES];
+        [self presentModalViewController:mailer animated:YES];
+        [mailer release];
+        
+    }
+    else
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failure"
+                                                        message:@"Your device doesn't support the composer sheet"
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        [alert show];
+        [alert release];
+    }
+}
+
+-(void) mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
+{
+    //UIViewController * parent = [self.view containingViewController];
+    //[self becomeFirstResponder];
+    [self dismissModalViewControllerAnimated:YES];
+    /*if ([parent respondsToSelector:@selector(dismissSemiModalView)]) {
+     [parent dismissSemiModalView];
+     }*/
 }
 @end

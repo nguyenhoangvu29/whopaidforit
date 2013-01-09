@@ -21,9 +21,11 @@
 }
 @property(nonatomic) int _id;
 @property(nonatomic) int _tab;
-@property(nonatomic) NSString *_name;
-@property(nonatomic) NSString *_username;
+@property(nonatomic, retain) NSString *_name;
+@property(nonatomic, retain) NSString *_email;
+@property(nonatomic, retain) NSString *_username;
 @property(nonatomic, retain) NSString *page;
+
 // methods
 + (User *)instance;
 -(NSString *) loginWS:(NSString *)username  passwd:(NSString *)passwd;
@@ -33,4 +35,9 @@
 -(NSInteger) addMemberWS:(NSInteger)event_id Name:(NSString *)name Email:(NSString *)email;
 -(NSInteger) addMember:(NSInteger)event_id Name:(NSString *)name Email:(NSString *)email;
 -(NSString *) getAccountWS:(int) user_id;
+-(NSString *) getAccount:(int) user_id;
+-(void)updateAccountWS:(NSInteger)member_id Name:(NSString *)name Email:(NSString *)email Password:(NSString *)password;
+-(void)updateAccount:(NSInteger)member_id Name:(NSString *)name Email:(NSString *)email Password:(NSString *)password;
+-(void) deleteMemberWS:(NSInteger)member_id eventId:(NSInteger)event_id userId:(NSInteger)user_id;
+
 @end

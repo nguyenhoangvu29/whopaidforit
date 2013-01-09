@@ -36,7 +36,6 @@ static User *_instance = nil;  // <-- important
 {
     SBJsonParser *parser = [[SBJsonParser alloc] init];
     User *user = [User instance];
-    Event *event = [Event instance];
     NSString *url = [NSString stringWithFormat:@"%@user/login?username=%@&password=%@",SERVER_URL,username, passwd];
     NSLog(@"login %@",url);
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
@@ -46,16 +45,24 @@ static User *_instance = nil;  // <-- important
     NSString *page = [obj objectForKey:@"page"];
     if([page isEqualToString:@"addentry"]){
         user._id = [[obj objectForKey:@"id"] intValue];
+        user._name = [obj objectForKey:@"name"];
+        user._email = [obj objectForKey:@"mail_address"];
         //event._id = [[obj objectForKey:@"event_id"] intValue];
         //event._name = [obj objectForKey:@"event_name"];
     }else if ([page isEqualToString:@"addevent"]) {
         user._id = [[obj objectForKey:@"id"] intValue];
+        user._name = [obj objectForKey:@"name"];
+        user._email = [obj objectForKey:@"mail_address"];
     }else if ([page isEqualToString:@"listentries"]) {
         user._id = [[obj objectForKey:@"id"] intValue];
+        user._name = [obj objectForKey:@"name"];
+        user._email = [obj objectForKey:@"mail_address"];
         //event._id = [[obj objectForKey:@"event_id"] intValue];
         //event._name = [obj objectForKey:@"event_name"];
     }else if ([page isEqualToString:@"events"]) {
         user._id = [[obj objectForKey:@"id"] intValue];
+        user._name = [obj objectForKey:@"name"];
+        user._email = [obj objectForKey:@"mail_address"];
         //event._id = [[obj objectForKey:@"event_id"] intValue];
         //event._name = [obj objectForKey:@"event_name"];
     }else {
@@ -232,7 +239,7 @@ static User *_instance = nil;  // <-- important
     for (NSDictionary *obj in results)
     {
         
-        NSString *objRow = [[NSString stringWithFormat:@"%d#%@#%@#%d", [[obj objectForKey:@"user_id"] intValue], [obj objectForKey:@"name"], [obj objectForKey:@"mail_address"], [[obj objectForKey:@"active"] intValue] ] retain];
+        NSString *objRow = [[NSString stringWithFormat:@"%d#%@#%@#%d#%d", [[obj objectForKey:@"user_id"] intValue], [obj objectForKey:@"name"], [obj objectForKey:@"mail_address"], [[obj objectForKey:@"active"] intValue] , [[obj objectForKey:@"owner_id"] intValue] ] retain];
         [listData addObject:objRow];
     }
     return listData;
@@ -344,6 +351,7 @@ static User *_instance = nil;  // <-- important
     } 
     return _id;
 }
+
 -(void)updateMemberWS:(int)member_id Name:(NSString *)name Email:(NSString *)email
 {
     User *user = [User instance];
@@ -356,6 +364,7 @@ static User *_instance = nil;  // <-- important
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
     NSData *response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
 }
+
 -(void)updateMember:(NSInteger)member_id Name:(NSString *)name Email:(NSString *)email
 {
     sqlite3 *database;
@@ -406,6 +415,7 @@ static User *_instance = nil;  // <-- important
         sqlite3_close(database);		
     } 
 }
+
 -(NSString *) getAccountWS:(int) user_id
 {
     NSString *objRow = @"";
@@ -422,6 +432,7 @@ static User *_instance = nil;  // <-- important
     }
     return objRow;
 }
+
 -(NSString *) getAccount:(int) user_id
 {
     NSString *objRow = @"";
@@ -458,10 +469,14 @@ static User *_instance = nil;  // <-- important
     }
     return objRow;
 }
+
 -(void)updateAccountWS:(NSInteger)member_id Name:(NSString *)name Email:(NSString *)email Password:(NSString *)password
 {
-    
+    NSString *url = [NSString stringWithFormat:@"%@user/update?id=%d&name=%@&email=%@&password=%@",SERVER_URL,member_id, name, email, password];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
+    [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
 }
+
 -(void)updateAccount:(NSInteger)member_id Name:(NSString *)name Email:(NSString *)email Password:(NSString *)password
 {
     sqlite3 *database;
@@ -520,5 +535,12 @@ static User *_instance = nil;  // <-- important
     @finally {
         sqlite3_close(database);		
     } 
+}
+
+-(void) deleteMemberWS:(NSInteger)member_id eventId:(NSInteger)event_id userId:(NSInteger)user_id
+{
+    NSString *url = [NSString stringWithFormat:@"%@user/delete?id=%d&event_id=%d&user_id=%d",SERVER_URL,member_id, event_id, user_id];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
+    [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
 }
 @end

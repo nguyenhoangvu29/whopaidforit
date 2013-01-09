@@ -37,7 +37,7 @@ static Checkout *_instance = nil;  // <-- important
     NSMutableArray *listData = [[NSMutableArray alloc] init ];
     SBJsonParser *parser = [[SBJsonParser alloc] init];
     NSString *url = [NSString stringWithFormat:@"%@/checkout/getinfocheckout?event_id=%d",SERVER_URL, event_id];
-    NSLog(@"get event list: %@",url);
+    NSLog(@"get checkout: %@",url);
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
     NSData *response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
     NSString *json_string = [[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding];
@@ -48,6 +48,7 @@ static Checkout *_instance = nil;  // <-- important
         [listData addObject:objRow];
        
     }
+    NSLog(@"number row in checkout %d", [listData count]);
     return listData;
 }
 -(NSMutableArray *)getCheckout:(int)event_id

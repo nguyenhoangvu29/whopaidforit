@@ -18,5 +18,6 @@
     PopUpViewController *showPopUp;
     NSMutableArray *listData;
 }
+@property (nonatomic,retain) UIBarButtonItem *buttonAdd;
 
 @end

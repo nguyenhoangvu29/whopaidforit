@@ -27,7 +27,7 @@
 @end
 
 @implementation EditEntryDetailViewController
-@synthesize arrayPersons, selectPerson, selectPersonId, paidForId, keyboardToolbar, textFields, dragView, dragViews, dragFlag, dateTextField, desTextField, priceTextField, datePicker, scrollView;
+@synthesize arrayPersons, selectPerson, selectPersonId, paidForId, keyboardToolbar, textFields, dragView, dragViews, dragFlag, dateTextField, desTextField, priceTextField, datePicker, scrollView, mailer;
 
 - (void)reloadMoney {
     float a = [[[self.priceTextField.text stringByReplacingOccurrencesOfString:@"." withString:@""] stringByReplacingOccurrencesOfString:@"," withString:@"."] floatValue];
@@ -44,7 +44,7 @@
     }
     
 }
--(void) receivedDataAddMember {
+-(void) receivedDataAddMember:(NSString *) name Email:(NSString *) email {
     NSMutableArray *listMember = [[NSMutableArray alloc] init ];
     Event *event = [Event instance];
     User *user = [User instance];
@@ -59,6 +59,7 @@
     self.arrayPersons = arrPersons;
     
     [self showGripUser];
+    [self sendEmail:name Email:email];
 }
 
 - (void)showAddMember:(id)sender {
@@ -632,10 +633,48 @@
         self.dragView.alpha = 0;
     }];
 }
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void) sendEmail:(NSString *)name Email:(NSString *) email
+{
+    if ([MFMailComposeViewController canSendMail])
+    {
+        User *user =[User instance];
+        Event *event = [Event instance];
+        mailer = [[MFMailComposeViewController alloc] init];
+        mailer.mailComposeDelegate = self;
+        [mailer setSubject:@"Uitnodiging om WhoPaidForIt te gebruiken"];
+        NSArray *toRecipients = [NSArray arrayWithObjects:email, nil];
+        [mailer setToRecipients:toRecipients];
+        //UIImage *myImage = [UIImage imageNamed:@"mobiletuts-logo.png"];
+        //NSData *imageData = UIImagePNGRepresentation(myImage);
+        //[mailer addAttachmentData:imageData mimeType:@"image/png" fileName:@"mobiletutsImage"];
+        NSString *emailBody = [NSString stringWithFormat:@"<p>Beste %@,</p><p>%@ nodigt u uit om de WhoPaidForIt app te downloaden en te participeren in het Event %@.</p><p>Met de WhoPaidForIt app administreert u snel en eenvoudig gezamenlijke uitgaven. De app verrekent vervolgens de gezamenlijke kosten naar kosten per deelnemer aan een event.</p><br/><p>[Logo Apple AppStore link to whopaidforit app]<br/>[Logo Google Play Store link to whopaidforit app]</p>",name,user._name, event._name ];
+        [mailer setMessageBody:emailBody isHTML:YES];
+        [self presentModalViewController:mailer animated:YES];
+        [mailer release];
+        
+    }
+    else
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failure"
+                                                        message:@"Your device doesn't support the composer sheet"
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        [alert show];
+        [alert release];
+    }
+}
+
+-(void) mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
+{
+    [self dismissModalViewControllerAnimated:YES];
 }
 
 @end

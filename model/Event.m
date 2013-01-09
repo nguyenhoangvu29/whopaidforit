@@ -296,4 +296,12 @@ static Event *_instance = nil;  // <-- important
         sqlite3_close(database);		
     } 
 }
+
+-(void) activeEvent:(NSInteger)user_id eventId:(NSInteger)event_id
+{
+    NSString *url = [NSString stringWithFormat:@"%@event/activeMember?event_id=%d&user_id=%d",SERVER_URL,event_id, user_id ];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
+    [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+}
+
 @end

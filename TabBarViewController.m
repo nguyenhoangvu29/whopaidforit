@@ -72,7 +72,7 @@
     // ======================== ||
     NEventsViewController * main0 = [[NEventsViewController alloc] init];
     UINavigationController *navMain0 = [[UINavigationController alloc] initWithRootViewController:main0];
-    main0.title = @"";
+    main0.title = @"EVENTS";
     main0.tabBarItem.image = [UIImage imageNamed:@"icon1"];
     [main0 release];
     
@@ -91,29 +91,30 @@
     
     // ===
 
-    //main1.title = navMain1.navigationItem.title = @"Boekingen";
-    main1.tabBarItem.image = [UIImage imageNamed:@"icon2"];
+    main1.title = @"REKENING";
+    main1.tabBarItem.image = [UIImage imageNamed:@"icon-booking.png"];
     [main1 release];
     
     CheckoutController * main3 = [[CheckoutController alloc] init];
     UINavigationController *navMain3 = [[UINavigationController alloc] initWithRootViewController:main3];
-    //main3.title = @"Afrekenen";
+    main3.title = @"CHECKOUT";
     main3.tabBarItem.image = [UIImage imageNamed:@"icon4"];
     [main3 release];
     
     MemberViewController * main2 = [[MemberViewController alloc] init];
     UINavigationController *navMain2 = [[UINavigationController alloc] initWithRootViewController:main2];
-    //main2.title = @"Leden";
-    main2.tabBarItem.image = [UIImage imageNamed:@"icon3"];
+    main2.title = @"MEMBERS";
+    main2.tabBarItem.image = [UIImage imageNamed:@"icon-members.png"];
     [main2 release];
         
     AccountViewController * main4 = [[AccountViewController alloc] init];
     UINavigationController *navMain4 = [[UINavigationController alloc] initWithRootViewController:main4];
-    //main4.title = @"Account";
-    main4.tabBarItem.image = [UIImage imageNamed:@"icon5"];
+    main4.title = @"ACCOUNT";
+    main4.tabBarItem.image = [UIImage imageNamed:@"icon-account.png"];
     [main4 release];
     
     self.viewControllers = [NSArray arrayWithObjects:navMain0, navMain1, navMain3, navMain2, navMain4, nil];
+    //self.viewControllers = [NSArray arrayWithObjects:navMain0, navMain1, navMain3, nil];
     [WidgetControl setPersonalStyle:navMain0];
     [WidgetControl setPersonalStyle:navMain1];
     [WidgetControl setPersonalStyle:navMain2];

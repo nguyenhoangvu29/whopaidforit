@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MessageUI/MessageUI.h>
+#import <MessageUI/MFMailComposeViewController.h>
 #import "User.h"
 #import "Event.h"
 #import "Member.h"
@@ -15,9 +17,11 @@
 
 @class PopUpViewController;
 
-@interface MemberViewController : UITableViewController  <UIAlertViewDelegate>
+@interface MemberViewController : UITableViewController  <UIActionSheetDelegate, UIAlertViewDelegate, MFMailComposeViewControllerDelegate>
 {
     PopUpViewController * showPopUp;
     NSMutableArray *listData;
 }
+@property(nonatomic, retain) MFMailComposeViewController *mailer;
+
 @end

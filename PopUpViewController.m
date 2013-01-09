@@ -66,7 +66,7 @@
         }else if([user.page isEqualToString:@"entryaddmember"]){
             // save member when add from editentry page
             [user addMemberWS:event._id Name:name Email:email];
-            [parent receivedDataAddMember];
+            [parent receivedDataAddMember:name Email:email];
         }
     } else {
         //ios4
@@ -103,6 +103,7 @@
         [parent dismissSemiModalView];
     }
 }
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];

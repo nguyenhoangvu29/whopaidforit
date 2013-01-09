@@ -76,7 +76,7 @@
         GraphicDrawView *optionView = [[GraphicDrawView alloc] init];
         optionView.optionDraw = @"cell";
         
-        UILabel *labelStatus = [[UILabel alloc]initWithFrame:CGRectMake(5, 8, 50, 21)];
+        UILabel *labelStatus = [[UILabel alloc]initWithFrame:CGRectMake(15, 8, 50, 21)];
         labelStatus.backgroundColor = [UIColor clearColor];
         labelStatus.font = [UIFont systemFontOfSize:14];
         labelStatus.shadowOffset = CGSizeMake(1,1);
@@ -86,16 +86,18 @@
         [optionView addSubview:labelStatus];
         [labelStatus release];
         
-        UILabel *labelStatusText = [[UILabel alloc]initWithFrame:CGRectMake(5, 28, 140, 21)];
+        UILabel *labelStatusText = [[UILabel alloc]initWithFrame:CGRectMake(15, 28, 140, 21)];
         labelStatusText.backgroundColor = [UIColor clearColor];
         labelStatusText.font = [UIFont systemFontOfSize:14];
         labelStatusText.shadowOffset = CGSizeMake(1,1);
         labelStatusText.textColor = [UIColor colorWithRed:153/255.0f green:153/255.0f blue:153/255.0f alpha:1.0];
+        labelStatusText.text = @"niet Actief";
         if(active){
             labelStatusText.textColor = [UIColor colorWithRed:0/255.0f green:116/255.0f blue:216/255.0f alpha:1.0];
+            labelStatusText.text = @"Actief";
         }
         labelStatusText.shadowColor = [UIColor whiteColor];
-        labelStatusText.text = @"Geaccepteerd";
+        
         [optionView addSubview:labelStatusText];
         [labelStatusText release];
         

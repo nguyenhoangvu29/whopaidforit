@@ -109,9 +109,10 @@
         [addButton addTarget:self action:@selector(didTapAdd) forControlEvents:UIControlEventTouchUpInside];
         self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:addButton] autorelease];
         
-        UIButton *itemButton = [WidgetControl makePersonalBarButton];
-        [itemButton setTitle:@"Items" forState:UIControlStateNormal];
-        itemButton.frame = CGRectMake(0, 0, 50, 30);
+        UIButton *itemButton = [WidgetControl makeButton:nil andFont:nil andColor:nil andImage:[UIImage imageNamed:@"icon-list"] andBackground:nil andHightlightBackground:nil];
+        itemButton.frame = CGRectMake(0, 0, 30, 30);
+        //UIButton *itemButton = [WidgetControl makePersonalBarButton];
+        //[itemButton setTitle:@"Items" forState:UIControlStateNormal];
         [itemButton addTarget:self action:@selector(goBack) forControlEvents:UIControlEventTouchUpInside];
         self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:itemButton] autorelease];
         
@@ -141,8 +142,8 @@
         [label sizeToFit];
         
     }else{
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Boekingen"
-                                                        message:@"Please choose item before making booking"
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Rekening"
+                                                        message:@"Maak eerst een nieuw event of selecteer een bestaand event voor deze rekening."
                                                        delegate:self
                                               cancelButtonTitle:@"OK"
                                               otherButtonTitles:nil];
@@ -153,9 +154,6 @@
 
 -(void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:    (NSInteger)buttonIndex
 {
-    //NEventsViewController *event = [[NEventsViewController alloc] init];
-    //[self.navigationController pushViewController:event animated:YES];
-    //[event release];
     self.tabBarController.selectedIndex = 0;
 }
 

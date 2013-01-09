@@ -13,10 +13,6 @@
 #import "PPRevealSideViewController.h"
 #import "WidgetControl.h"
 
-@interface NEventsViewController ()
-@property (nonatomic,retain) UIBarButtonItem *buttonAdd;
-@end
-
 @implementation NEventsViewController
 @synthesize buttonAdd;
 
@@ -49,9 +45,6 @@
     if (self) {
         [WidgetControl setPersonalStyle:self];
         
-        // ====================
-        // // Right Bar Button
-        // ====================
         UIButton *addButton = [WidgetControl makeButton:nil andFont:nil andColor:nil andImage:[UIImage imageNamed:@"ico_plus"] andBackground:nil andHightlightBackground:nil];
         addButton.frame = CGRectMake(0, 0, 30, 30);
         [addButton addTarget:self action:@selector(buttonDidTouch:) forControlEvents:UIControlEventTouchUpInside];
@@ -79,10 +72,8 @@
 }*/
 -(void)didTapEdit{
     if (!self.tableView.isEditing) {
-        //self.navigationItem.rightBarButtonItem = self.buttonAdd;
         [super setEditing:YES animated:YES];
     } else {
-        //self.navigationItem.rightBarButtonItem = nil;
         [super setEditing:NO animated:YES];
     }
     self.navigationItem.leftBarButtonItem = self.leftBarButtonItem;
@@ -106,15 +97,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // ======================== ||
-    // // Other Calls
-    // ======================== ||
-    
     showPopUp = [[PopUpViewController alloc] initWithNibName:@"PopUpViewController" bundle:nil];
-    
-    // ======================== ||
-    // // Setting styles
-    // ======================== ||
     
     [WidgetControl setBackgroundImageNavigationBar:self.navigationController.navigationBar andImage:[UIImage imageNamed:@"navblack"]];
     self.tableView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bgtbb"]];
@@ -127,24 +110,13 @@
     UILabel *label = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];
     label.backgroundColor = [UIColor clearColor];
     label.font = [UIFont boldSystemFontOfSize:20.0];
-    //label.shadowColor = [UIColor colorWithRed:0/255.0f green:0/255.0f blue:0/255.0f alpha:1];
-    //label.shadowOffset = CGSizeMake(0, -1);
     label.textAlignment = UITextAlignmentCenter;
     label.textColor = [UIColor whiteColor]; // change this color
     self.navigationItem.titleView = label;
     label.text = @"Event lijst";
     [label sizeToFit];
-    //self.title = @"Event lijst";
-    
-    // ======================== ||
-    // // BarButton Edit
-    // ======================== ||
     
     self.navigationItem.leftBarButtonItem = self.leftBarButtonItem;
-    
-    // ======================== ||
-    // // BarButton Add
-    // ======================== ||
     
     UIButton *buttonAddView = [WidgetControl makeButton:nil andFont:nil andColor:nil andImage:[UIImage imageNamed:@"ico_plus"] andBackground:nil andHightlightBackground:nil];
     buttonAddView.frame = CGRectMake(0, 0, 30, 30);
@@ -152,6 +124,12 @@
     self.buttonAdd = [[[UIBarButtonItem alloc] initWithCustomView:buttonAddView] autorelease];
     [self loadData];
 }
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [self reloadData];
+}
+
 -(void)loadData
 {
     User *user = [User instance];
@@ -159,11 +137,13 @@
     listData = [[NSMutableArray alloc ] init ];
     listData = [event getDatasWS:user._id];
 }
+
 -(void) reloadData
 {
     [self loadData];
     [self.tableView reloadData];
 }
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -183,14 +163,17 @@
 {
 //#warning Incomplete method implementation.
     // Return the number of rows in the section.
+    NSLog(@"count record event %d", [listData count]);
     return [listData count];
 }
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row ==0) {
         return 89;
     }
     return 90;
 }
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     User *user = [User instance];
@@ -200,10 +183,8 @@
     
     //custom cell
     EventsCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    //if (cell == nil) {
     NSInteger active = [[column objectAtIndex:5] intValue];
     cell = [[[EventsCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier Active:active] autorelease];
-    //}
     
     // Configure the cell..
     //cell.textLabel.text = [column objectAtIndex:1];
@@ -223,7 +204,6 @@
         [cell.editButton setHidden:YES];
     }
     
-    
     return cell;
     
 }
@@ -231,21 +211,19 @@
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    
+{   
     Event *event = [Event instance];
+    User *user = [User instance];
     NSString *value = [listData objectAtIndex:[indexPath row]];
     NSArray *column = [value componentsSeparatedByString:@"#"];
     event._id = [[column objectAtIndex:0] intValue];
     event._name = [column objectAtIndex:1];
     
     self.tabBarController.selectedIndex = 1;
-    /*
-    EntriesViewController *entries = [[EntriesViewController alloc] init];
-    entries.title = event._name;
-    [self.navigationController pushViewController:entries animated:YES];
-    [entries release];
-     */
+    //active user
+    if([[column objectAtIndex:6] intValue] != user._id){
+        [event activeEvent:user._id eventId:event._id];
+    }
 }
 
 // Override to support editing the table view.
@@ -262,7 +240,7 @@
         
     }else{
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Events"
-                                                        message:@"Don't have permission delete that event"
+                                                        message:@"U bent niet de eigenaar van dit event. Alleen de eigenaar van dit event kan het event verwijderen."
                                                        delegate:nil
                                               cancelButtonTitle:@"OK"
                                               otherButtonTitles:nil];
@@ -276,5 +254,7 @@
 - (void) dealloc {
     [super dealloc];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    //[showPopUp release];
+    //[listData release];
 }
 @end

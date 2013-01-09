@@ -8,8 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		0F038BDD1699568F00EBFE58 /* swipe.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F038BDC1699568F00EBFE58 /* swipe.png */; };
+		0F09DB69169DA4D2008B20B8 /* icon-booking.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F09DB68169DA4D2008B20B8 /* icon-booking.png */; };
+		0F4279DE169B32860000A17C /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F4279DD169B32860000A17C /* MessageUI.framework */; };
 		0F768693168CB3AF007AACEB /* icon-account.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F768689168CB3AD007AACEB /* icon-account.png */; };
-		0F768694168CB3AF007AACEB /* icon-booking1.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F76868A168CB3AD007AACEB /* icon-booking1.png */; };
 		0F768695168CB3AF007AACEB /* icon-checkout.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F76868B168CB3AD007AACEB /* icon-checkout.png */; };
 		0F768696168CB3AF007AACEB /* icon-edit.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F76868C168CB3AD007AACEB /* icon-edit.png */; };
 		0F768697168CB3AF007AACEB /* icon-item.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F76868D168CB3AE007AACEB /* icon-item.png */; };
@@ -144,8 +145,9 @@
 
 /* Begin PBXFileReference section */
 		0F038BDC1699568F00EBFE58 /* swipe.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = swipe.png; path = images/swipe.png; sourceTree = "<group>"; };
+		0F09DB68169DA4D2008B20B8 /* icon-booking.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-booking.png"; path = "images/icon-booking.png"; sourceTree = "<group>"; };
+		0F4279DD169B32860000A17C /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		0F768689168CB3AD007AACEB /* icon-account.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-account.png"; path = "images/icon-account.png"; sourceTree = "<group>"; };
-		0F76868A168CB3AD007AACEB /* icon-booking1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-booking1.png"; path = "images/icon-booking1.png"; sourceTree = "<group>"; };
 		0F76868B168CB3AD007AACEB /* icon-checkout.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-checkout.png"; path = "images/icon-checkout.png"; sourceTree = "<group>"; };
 		0F76868C168CB3AD007AACEB /* icon-edit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-edit.png"; path = "images/icon-edit.png"; sourceTree = "<group>"; };
 		0F76868D168CB3AE007AACEB /* icon-item.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-item.png"; path = "images/icon-item.png"; sourceTree = "<group>"; };
@@ -337,6 +339,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0F4279DE169B32860000A17C /* MessageUI.framework in Frameworks */,
 				CECB76E2163F7A7D00C28F70 /* libsqlite3.0.dylib in Frameworks */,
 				87395BA216200D5E00F6255E /* QuartzCore.framework in Frameworks */,
 				871D9BEE161E840F00B8C729 /* UIKit.framework in Frameworks */,
@@ -380,6 +383,7 @@
 		871D9BDE161E840F00B8C729 = {
 			isa = PBXGroup;
 			children = (
+				0F4279DD169B32860000A17C /* MessageUI.framework */,
 				CE66A6AA164B594A009D5F74 /* libraries */,
 				CECB76C9163F79C000C28F70 /* model */,
 				CECB76C7163F79BB00C28F70 /* database */,
@@ -526,9 +530,9 @@
 		877F2DC5161F4510007A040A /* images */ = {
 			isa = PBXGroup;
 			children = (
+				0F09DB68169DA4D2008B20B8 /* icon-booking.png */,
 				0F038BDC1699568F00EBFE58 /* swipe.png */,
 				0F768689168CB3AD007AACEB /* icon-account.png */,
-				0F76868A168CB3AD007AACEB /* icon-booking1.png */,
 				0F76868B168CB3AD007AACEB /* icon-checkout.png */,
 				0F76868C168CB3AD007AACEB /* icon-edit.png */,
 				0F76868D168CB3AE007AACEB /* icon-item.png */,
@@ -796,7 +800,6 @@
 				CE61A9D016394CD100A1B47A /* ico_delete.png in Resources */,
 				CECB76CE163F7A1600C28F70 /* whopaidfor.sqlite in Resources */,
 				0F768693168CB3AF007AACEB /* icon-account.png in Resources */,
-				0F768694168CB3AF007AACEB /* icon-booking1.png in Resources */,
 				0F768695168CB3AF007AACEB /* icon-checkout.png in Resources */,
 				0F768696168CB3AF007AACEB /* icon-edit.png in Resources */,
 				0F768697168CB3AF007AACEB /* icon-item.png in Resources */,
@@ -806,6 +809,7 @@
 				0F76869B168CB3AF007AACEB /* icon-save-green.png in Resources */,
 				0F76869C168CB3AF007AACEB /* icon-save.png in Resources */,
 				0F038BDD1699568F00EBFE58 /* swipe.png in Resources */,
+				0F09DB69169DA4D2008B20B8 /* icon-booking.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

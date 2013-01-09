@@ -10,9 +10,9 @@
 #import "User.h"
 #import "Event.h"
 #import "Member.h"
-@interface PopUpViewController : UIViewController
+@interface PopUpViewController : UIViewController 
+
 @property (retain, nonatomic) IBOutlet UITextField *txtName;
 @property (retain, nonatomic) IBOutlet UITextField *txtEmail;
 @property (nonatomic, retain) NSArray *arrayContent;
-
 @end
