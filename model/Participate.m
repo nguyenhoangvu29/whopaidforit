@@ -9,7 +9,7 @@
 #import "Participate.h"
 #import "SBJsonParser.h"
 @implementation Participate
-#define SERVER_URL @"http://nghexaydung.com/whopaid/public/"
+#define SERVER_URL @"http://dj-daituongvn.com/whopaid/public/"
 static Participate *_instance = nil;  // <-- important 
 @synthesize name;
 @synthesize num;

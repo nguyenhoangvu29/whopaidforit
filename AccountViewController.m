@@ -85,6 +85,11 @@
     textFieldCPassword.delegate = self;
     textFieldCPassword.secureTextEntry = YES;
     [WidgetControl setPersonalTextfieldStyle:textFieldCPassword];
+    
+    textFieldName.returnKeyType = UIReturnKeyDone;
+    textFieldEmail.returnKeyType = UIReturnKeyDone;
+    textFieldPassword.returnKeyType = UIReturnKeyDone;
+    textFieldCPassword.returnKeyType = UIReturnKeyDone;
 }
 -(void) loadData{
     User *user = [User instance];

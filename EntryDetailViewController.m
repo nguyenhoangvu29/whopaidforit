@@ -163,13 +163,13 @@
     
     // ======================== ||
     // // View Controller
-    // ======================== ||
+    // ======================== ||ƒ
     
     UIView *bgTopView = (UIView *) [self.view viewWithTag:100];
     bgTopView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bgtb"]];
     
     UIImageView *bgRedLabel = (UIImageView *) [self.view viewWithTag:110];
-    bgRedLabel.image = [UIImage imageNamed:@"redlabel"];
+    bgRedLabel.image = [UIImage imageNamed:@"paidby"];
     
     buttonEdit = (UIButton *) [self.view viewWithTag:200];
     [buttonEdit addTarget:self action:@selector(clickButtonEdit) forControlEvents:UIControlEventTouchUpInside];

@@ -189,8 +189,8 @@
     label.shadowColor = [UIColor colorWithRed:47/255.0f green:0 blue:0 alpha:1];
     label.shadowOffset = CGSizeMake(0, 1);
     
-    usernameField.text =@"m@yahoo.com";
-    passwordField.text = @"123";
+    //usernameField.text =@"m@yahoo.com";
+    //passwordField.text = @"123";
 }
 
 - (void)didReceiveMemoryWarning

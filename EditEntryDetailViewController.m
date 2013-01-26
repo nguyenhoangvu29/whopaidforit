@@ -316,8 +316,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     showPopUp = [[PopUpViewController alloc] initWithNibName:@"PopUpViewController" bundle:nil];
-
- 
     
     #pragma -mark define toolbar for keyboard
     self.keyboardToolbar = [[[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 320, 44)] autorelease];
@@ -332,7 +330,7 @@
     bgTopView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bgtb"]];
     
     UIImageView *bgRedLabel = (UIImageView *) [self.view viewWithTag:110];
-    bgRedLabel.image = [UIImage imageNamed:@"redlabel"];
+    bgRedLabel.image = [UIImage imageNamed:@"paidby"];
     
     // ===============
     // // Button Edit
@@ -367,6 +365,8 @@
     self.desTextField.layer.shadowOffset = CGSizeMake(0.0, 1.0);
     self.desTextField.layer.shadowOpacity = 1.0;
     self.desTextField.layer.shadowRadius = 0.0;
+    self.desTextField.delegate = self;
+    self.desTextField.returnKeyType = UIReturnKeyDone;
     
     self.priceTextField = (UITextField *) [self.view viewWithTag:150];
     self.priceTextField.font = [UIFont fontWithName:@"Century Gothic" size:50];

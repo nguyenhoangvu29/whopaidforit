@@ -9,7 +9,7 @@
 #import "Checkout.h"
 #import "SBJsonParser.h"
 @implementation Checkout
-#define SERVER_URL @"http://nghexaydung.com/whopaid/public/"
+#define SERVER_URL @"http://dj-daituongvn.com/whopaid/public/"
 static Checkout *_instance = nil;  // <-- important
 @synthesize _id, _user_id, _event_id, _enpenses_type_id, _amount, _description;
 +(Checkout *)instance

@@ -11,7 +11,7 @@
 @implementation User
 static User *_instance = nil;  // <-- important 
 @synthesize _id, _name, _username, _tab, page;
-#define SERVER_URL @"http://nghexaydung.com/whopaid/public/"
+#define SERVER_URL @"http://dj-daituongvn.com/whopaid/public/"
 +(User *)instance
 { 
 	// skip everything

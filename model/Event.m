@@ -9,7 +9,7 @@
 #import "Event.h"
 #import "SBJsonParser.h"
 @implementation Event
-#define SERVER_URL @"http://nghexaydung.com/whopaid/public/"
+#define SERVER_URL @"http://dj-daituongvn.com/whopaid/public/"
 static Event *_instance = nil;  // <-- important 
 @synthesize _id, _name, _user_id, idEvent; 
 

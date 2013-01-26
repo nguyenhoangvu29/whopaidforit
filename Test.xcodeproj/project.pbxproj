@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		0F038BDD1699568F00EBFE58 /* swipe.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F038BDC1699568F00EBFE58 /* swipe.png */; };
 		0F09DB69169DA4D2008B20B8 /* icon-booking.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F09DB68169DA4D2008B20B8 /* icon-booking.png */; };
+		0F09DB6C169DBB75008B20B8 /* paidby.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F09DB6A169DBB75008B20B8 /* paidby.png */; };
+		0F09DB6D169DBB75008B20B8 /* paidby@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F09DB6B169DBB75008B20B8 /* paidby@2x.png */; };
 		0F4279DE169B32860000A17C /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F4279DD169B32860000A17C /* MessageUI.framework */; };
 		0F768693168CB3AF007AACEB /* icon-account.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F768689168CB3AD007AACEB /* icon-account.png */; };
 		0F768695168CB3AF007AACEB /* icon-checkout.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F76868B168CB3AD007AACEB /* icon-checkout.png */; };
@@ -146,6 +148,8 @@
 /* Begin PBXFileReference section */
 		0F038BDC1699568F00EBFE58 /* swipe.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = swipe.png; path = images/swipe.png; sourceTree = "<group>"; };
 		0F09DB68169DA4D2008B20B8 /* icon-booking.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-booking.png"; path = "images/icon-booking.png"; sourceTree = "<group>"; };
+		0F09DB6A169DBB75008B20B8 /* paidby.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = paidby.png; path = images/paidby.png; sourceTree = "<group>"; };
+		0F09DB6B169DBB75008B20B8 /* paidby@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "paidby@2x.png"; path = "images/paidby@2x.png"; sourceTree = "<group>"; };
 		0F4279DD169B32860000A17C /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		0F768689168CB3AD007AACEB /* icon-account.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-account.png"; path = "images/icon-account.png"; sourceTree = "<group>"; };
 		0F76868B168CB3AD007AACEB /* icon-checkout.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-checkout.png"; path = "images/icon-checkout.png"; sourceTree = "<group>"; };
@@ -530,6 +534,8 @@
 		877F2DC5161F4510007A040A /* images */ = {
 			isa = PBXGroup;
 			children = (
+				0F09DB6A169DBB75008B20B8 /* paidby.png */,
+				0F09DB6B169DBB75008B20B8 /* paidby@2x.png */,
 				0F09DB68169DA4D2008B20B8 /* icon-booking.png */,
 				0F038BDC1699568F00EBFE58 /* swipe.png */,
 				0F768689168CB3AD007AACEB /* icon-account.png */,
@@ -810,6 +816,8 @@
 				0F76869C168CB3AF007AACEB /* icon-save.png in Resources */,
 				0F038BDD1699568F00EBFE58 /* swipe.png in Resources */,
 				0F09DB69169DA4D2008B20B8 /* icon-booking.png in Resources */,
+				0F09DB6C169DBB75008B20B8 /* paidby.png in Resources */,
+				0F09DB6D169DBB75008B20B8 /* paidby@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -9,7 +9,7 @@
 #import "Entry.h"
 #import "SBJsonParser.h"
 @implementation Entry
-#define SERVER_URL @"http://nghexaydung.com/whopaid/public/"
+#define SERVER_URL @"http://dj-daituongvn.com/whopaid/public/"
 static Entry *_instance = nil;  // <-- important 
 @synthesize _id, _user_id, _event_id, _enpenses_type_id, _amount, _description; 
 +(Entry *)instance
